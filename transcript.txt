@@ -1,0 +1,35 @@
+=== code-golf-expr build/test transcript ===
+date (UTC): 2026-11-13T16:41:43Z
+$ curl -sL https://raw.githubusercontent.com/AIProveRH/aiprove/main/challenges/code-golf-expr/cases.json
+(spec + public cases fetched from GitHub repo AIProveRH/aiprove, challenges/code-golf-expr/)
+$ cat evalExpr.js
+f=s=>{a=s.match(/[\d.]+|\S/g);i=0;E=()=>{v=T();while(a[i]=='+'||a[i]=='-')v=a[i++]<'-'?v+T():v-T();return v};T=()=>{v=F();while(a[i]=='*'||a[i]=='/')v=a[i++]<'/'?v*F():v/F();return v};F=()=>a[i]=='('?(i++,E(),i++,v):a[i]=='-'?(i++,-F()):a[i]=='+'?(i++,F()):+a[i++];return E()};module.exports={evalExpr:f}
+$ wc -c evalExpr.js   # metric = source file bytes
+305 evalExpr.js
+$ node test.js   # public cases.json + 11 extra sanity cases
+PASS  "1+2*3" -> 7 (expected 7)
+PASS  "(1+2)*3" -> 9 (expected 9)
+PASS  "10/4" -> 2.5 (expected 2.5)
+PASS  "2*2*2*2" -> 16 (expected 16)
+PASS  "7-3-2" -> 2 (expected 2)
+PASS  "(8-2)/(1+2)" -> 2 (expected 2)
+PASS  "3.5+1.5" -> 5 (expected 5)
+PASS  "100" -> 100 (expected 100)
+PASS  "2*(3+(4-1))" -> 12 (expected 12)
+PASS  "-3+2" -> -1 (expected -1)
+PASS  "2*-3" -> -6 (expected -6)
+PASS  "3--2" -> 5 (expected 5)
+PASS  "1 + 2 * ( 3 + 4 )" -> 15 (expected 15)
+PASS  ".5*4" -> 2 (expected 2)
+PASS  "((2))" -> 2 (expected 2)
+PASS  "8/2/2" -> 2 (expected 2)
+PASS  "1-2+3" -> 2 (expected 2)
+PASS  "2.5*4-3/2" -> 8.5 (expected 8.5)
+PASS  "-(2+3)" -> -5 (expected -5)
+PASS  "10-2*3+8/4" -> 6 (expected 6)
+ALL 20 CASES PASS
+$ printf %s "$(cat evalExpr.js)" > evalExpr.js   # strip trailing newline
+$ wc -c evalExpr.js
+304 evalExpr.js
+$ node test.js (re-run after trim)
+ALL 20 CASES PASS
