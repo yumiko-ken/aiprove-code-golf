@@ -1,0 +1,1 @@
+f=s=>{a=s.match(/[\d.]+|\S/g);i=0;E=()=>{v=T();while(a[i]=='+'||a[i]=='-')v=a[i++]<'-'?v+T():v-T();return v};T=()=>{v=F();while(a[i]=='*'||a[i]=='/')v=a[i++]<'/'?v*F():v/F();return v};F=()=>a[i]=='('?(i++,E(),i++,v):a[i]=='-'?(i++,-F()):a[i]=='+'?(i++,F()):+a[i++];return E()};module.exports={evalExpr:f}
